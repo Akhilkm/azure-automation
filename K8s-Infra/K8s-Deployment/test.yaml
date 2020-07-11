@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bis-backend-app-deployment
+  labels:
+    io.kompose.service: bis-backend-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+        io.kompose.service: bis-backend-app
+  template:
+    metadata:
+      labels:
+        io.kompose.service: bis-backend-app
+    spec:
+      containers:
+      - name: bis-backend-app
+        image: bisdevelop.azurecr.io/bis-backend-core-app:5
+        ports:
+        - containerPort: 80
