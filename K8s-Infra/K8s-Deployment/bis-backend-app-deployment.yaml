@@ -1,0 +1,68 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.12.0 (0ab07be)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: $repo_project
+  name: $repo_project
+spec:
+  replicas: $bis_backend_app_replicas
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1        # how many pods we can add at a time
+      maxUnavailable: 1  # how many pods can be unavailable during the rolling update
+  minReadySeconds: 5
+  revisionHistoryLimit: 1
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: $repo_project
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: agentpool
+                operator: In
+                values:
+                - agentpool
+      containers:
+      - args:
+        - "-c"
+        - "$bis_backend_app_backbone"
+        command: 
+        - /bin/sh
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        env:
+        - name: K8S_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+              
+        - name: "DeploymentTime"
+          value: "${DeploymentTime}"
+
+        - name: "repo_project"
+          value: "${repo_project}"
+
+
+
+        image: $ACR_ENDPOINT/$K8S_NAMESPACE-$repo_project:$version 
+        imagePullPolicy: Always
+        name: $K8S_NAMESPACE-$repo_project
+        resources: {}
+
+        ports:
+        - containerPort: 8000
+      restartPolicy: Always
