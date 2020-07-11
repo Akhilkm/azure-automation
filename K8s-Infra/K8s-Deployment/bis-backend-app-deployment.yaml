@@ -28,10 +28,10 @@ spec:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
             - matchExpressions:
-              - key: agentpool
+              - key: bisagentpool
                 operator: In
                 values:
-                - agentpool
+                - bisagentpool
       containers:
       - args:
         - "-c"
@@ -55,8 +55,6 @@ spec:
 
         - name: "repo_project"
           value: "${repo_project}"
-
-
 
         image: $ACR_ENDPOINT/$K8S_NAMESPACE-$repo_project:$version 
         imagePullPolicy: Always
