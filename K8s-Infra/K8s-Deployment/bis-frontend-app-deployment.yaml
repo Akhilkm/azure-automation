@@ -1,9 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: bis-backend-app-deployment
+  name: bis-frontend-app-deployment
   labels:
-    io.kompose.service: bis-backend-app
+    io.kompose.service: bis-frontend-app
 spec:
   strategy:
     type: RollingUpdate
@@ -15,11 +15,11 @@ spec:
   replicas: 3
   selector:
     matchLabels:
-        io.kompose.service: bis-backend-app
+        io.kompose.service: bis-frontend-app
   template:
     metadata:
       labels:
-        io.kompose.service: bis-backend-app
+        io.kompose.service: bis-frontend-app
     spec:
       affinity:
         nodeAffinity:
@@ -31,21 +31,21 @@ spec:
                   values:
                     - agentpool
       containers:
-      - name: bis-backend-app
-        args:
-          - "-c"
-          - "dotnet EPIC.BIS.API.Core.dll"
-        command: 
-          - /bin/sh
-        image: bisdevelop.azurecr.io/bis-backend-core-app:6
+      - name: bis-frontend-app
+        # args:
+        #   - "-c"
+        #   - "nginx -g daemon off;"
+        # command: 
+        #   - /bin/sh
+        image: bisdevelop.azurecr.io/bis-frontend-app:8
         ports:
-          - containerPort: 80
-        readinessProbe:
-          httpGet:
-            path: /swagger
-            port: 80
-          initialDelaySeconds: 10
-          periodSeconds: 10
+          - containerPort: 3456
+        # readinessProbe:
+        #   httpGet:
+        #     path: /swagger
+        #     port: 3456
+        #   initialDelaySeconds: 10
+        #   periodSeconds: 10
         env:
         - name: K8S_NAMESPACE
           valueFrom:
@@ -56,5 +56,5 @@ spec:
           value: "2020-07-11--13-48-54--IST"
 
         - name: "repo_project"
-          value: "bis-backend-app"
+          value: "bis-frontend-app"
       restartPolicy: Always
