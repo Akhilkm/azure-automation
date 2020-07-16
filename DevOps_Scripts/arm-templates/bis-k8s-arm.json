@@ -2,6 +2,13 @@
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
+        "resourceGroup": {
+            "defaultValue": "bis-develop",
+            "type": "string",
+            "metadata": {
+                "description": "The name of Resource Group."
+            }
+        },
         "resourceName": {
             "defaultValue": "bis-develop",
             "type": "string",
@@ -190,7 +197,7 @@
             ],
             "type": "Microsoft.ContainerService/managedClusters",
             "location": "[parameters('location')]",
-            "name": "[parameters('resourceName')]",
+            "name": "bis-develop",
             "properties": {
                 "kubernetesVersion": "[parameters('kubernetesVersion')]",
                 "enableRBAC": "[parameters('enableRBAC')]",
@@ -310,7 +317,7 @@
             "type": "Microsoft.Resources/deployments",
             "name": "ClusterMonitoringMetricPulisherRoleAssignmentDepl-20200716145420",
             "apiVersion": "2017-05-10",
-            "resourceGroup": "bis-dev",
+            "resourceGroup": "[parameters('resourceGroup')]",
             "subscriptionId": "3f28f233-01b4-4f88-88aa-903f54eb850f",
             "properties": {
                 "mode": "Incremental",
@@ -327,21 +334,21 @@
                             "properties": {
                                 "roleDefinitionId": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/', '3913510d-42f4-4e42-8a64-420c390055eb')]",
                                 "principalId": "[parameters('principalId')]",
-                                "scope": "/subscriptions/3f28f233-01b4-4f88-88aa-903f54eb850f/resourceGroups/bis-dev/providers/Microsoft.ContainerService/managedClusters/bis-develop"
+                                "scope": "/subscriptions/3f28f233-01b4-4f88-88aa-903f54eb850f/resourceGroups/bis-develop/providers/Microsoft.ContainerService/managedClusters/bis-develop"
                             }
                         }
                     ]
                 }
             },
             "dependsOn": [
-                "/subscriptions/3f28f233-01b4-4f88-88aa-903f54eb850f/resourceGroups/bis-dev/providers/Microsoft.ContainerService/managedClusters/bis-develop"
+                "/subscriptions/3f28f233-01b4-4f88-88aa-903f54eb850f/resourceGroups/bis-develop/providers/Microsoft.ContainerService/managedClusters/bis-develop"
             ]
         },
         {
             "type": "Microsoft.Resources/deployments",
             "name": "ClusterSubnetRoleAssignmentDeployment-20200716145420",
             "apiVersion": "2017-05-10",
-            "resourceGroup": "bis-dev",
+            "resourceGroup": "[parameters('resourceGroup')]",
             "subscriptionId": "3f28f233-01b4-4f88-88aa-903f54eb850f",
             "properties": {
                 "mode": "Incremental",
@@ -354,11 +361,11 @@
                         {
                             "type": "Microsoft.Network/virtualNetworks/subnets/providers/roleAssignments",
                             "apiVersion": "2017-05-01",
-                            "name": "bis-dev/bis-dev-privatesubnet1/Microsoft.Authorization/ae4d3cdd-1b19-41e6-a6e0-3182f48b68f0",
+                            "name": "bis-develop/bis-develop-privatesubnet1/Microsoft.Authorization/ae4d3cdd-1b19-41e6-a6e0-3182f48b68f0",
                             "properties": {
                                 "roleDefinitionId": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/', '4d97b98b-1d4f-4787-a291-c67834d212e7')]",
                                 "principalId": "[parameters('principalId')]",
-                                "scope": "/subscriptions/3f28f233-01b4-4f88-88aa-903f54eb850f/resourceGroups/bis-dev/providers/Microsoft.Network/virtualNetworks/bis-dev/subnets/bis-dev-privatesubnet1"
+                                "scope": "/subscriptions/3f28f233-01b4-4f88-88aa-903f54eb850f/resourceGroups/bis-develop/providers/Microsoft.Network/virtualNetworks/bis-develop/subnets/bis-develop-privatesubnet1"
                             }
                         }
                     ]

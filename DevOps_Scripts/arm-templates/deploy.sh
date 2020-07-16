@@ -4,7 +4,7 @@
 SUBSCRIPTION_ID="3f28f233-01b4-4f88-88aa-903f54eb850f"
 
 # Resource group variables
-RESOURCE_GROUP_NAME="bis-dev"
+RESOURCE_GROUP_NAME="bis-develop"
 RESOURCE_GROUP_Location="canadacentral"
 
 # Network variables
@@ -65,14 +65,14 @@ function createContainerRegistry() {
 function createAksCluster() {
     echo "Creating the AKS cluster"
     output=$(az ad sp create-for-rbac --skip-assignment --name ${AKS_SERVICEPRINCIPAL_NAME})
-    appId=$(echo $output | grep appId | awk '{print $2}' | sed 's|,||' | sed 's|"||g')
-    appSecret=$(echo $output | grep password | awk '{print $2}' | sed 's|,||' | sed 's|"||g')
+    appId=$(echo $output | jq -r '.appId')
+    appSecret=$(echo $output | jq -r '.password')
 
     output=$(az ad sp list --display-name ${AKS_SERVICEPRINCIPAL_NAME})
     objectId=$(echo $output | grep objectId | awk '{print $2}' | sed 's|,||' | sed 's|"||g')
 
     omsWorkspaceId="/subscriptions/${SUBSCRIPTION_ID}/resourceGroups/${RESOURCE_GROUP_NAME}/providers/Microsoft.OperationalInsights/workspaces/${AKS_RESOURCE_NAME}-k8s-workspace"
-    vnetSubnetID="/subscriptions/${SUBSCRIPTION_ID}/resourceGroups/${RESOURCE_GROUP_NAME}/providers/Microsoft.Network/virtualNetworks/bis-dev/subnets/${RESOURCE_GROUP_NAME}-privatesubnet1"
+    vnetSubnetID="/subscriptions/${SUBSCRIPTION_ID}/resourceGroups/${RESOURCE_GROUP_NAME}/providers/Microsoft.Network/virtualNetworks/bis-develop/subnets/${RESOURCE_GROUP_NAME}-privatesubnet1"
 
     az deployment group create --resource-group ${RESOURCE_GROUP_NAME}  \
         --template-file ./bis-k8s-arm.json \
