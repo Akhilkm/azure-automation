@@ -1,0 +1,51 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "registryName": {
+            "type": "string",
+            "defaultValue": "bisdevelop"
+        },
+        "registryLocation": {
+            "type": "string",
+            "defaultValue": "canadacentral"
+        },
+        "registrySku": {
+            "type": "string",
+            "defaultValue": "Standard"
+        },
+        "registryApiVersion": {
+            "type": "string",
+            "defaultValue": "2019-12-01-preview"
+        },
+        "tags": {
+            "type": "object",
+            "defaultValue": {
+                "Environment": "Dev",
+                "Owner": "Devops",
+                "Project": "Bis"
+            }
+        },
+        "publicNetworkAccess": {
+            "type": "string",
+            "defaultValue": "Enabled"
+        }
+    },
+    "resources": [
+        {
+            "type": "Microsoft.ContainerRegistry/registries",
+            "apiVersion": "[parameters('registryApiVersion')]",
+            "name": "[parameters('registryName')]",
+            "location": "[parameters('registryLocation')]",
+            "dependsOn": [],
+            "tags": "[parameters('tags')]",
+            "sku": {
+                "name": "[parameters('registrySku')]"
+            },
+            "properties": {
+                "publicNetworkAccess": "[parameters('publicNetworkAccess')]"
+            }
+        }
+    ],
+    "outputs": {}
+}

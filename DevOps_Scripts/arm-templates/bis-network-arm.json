@@ -2,9 +2,25 @@
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "virtualNetworks_Bis_Dev_name": {
+        "vnetName": {
             "defaultValue": "bis-develop",
             "type": "String"
+        },
+        "ipAddressPrefix": {
+            "defaultValue": "10.0",
+            "type": "String"
+        },
+        "tags": {
+            "type": "object",
+            "defaultValue": {
+                "Environment": "Dev",
+                "Owner": "Devops",
+                "Project": "Bis"
+            }
+        },
+        "resourceLocation": {
+            "defaultValue": "canadacentral",
+            "type": "string"
         }
     },
     "variables": {},
@@ -12,24 +28,20 @@
         {
             "type": "Microsoft.Network/virtualNetworks",
             "apiVersion": "2019-11-01",
-            "name": "[parameters('virtualNetworks_Bis_Dev_name')]",
-            "location": "canadacentral",
-            "tags": {
-                "Environment": "Dev",
-                "Owner": "Devops",
-                "Project": "Bis"
-            },
+            "name": "[parameters('vnetName')]",
+            "location": "[parameters('resourceLocation')]",
+            "tags": "[parameters('tags')]",
             "properties": {
                 "addressSpace": {
                     "addressPrefixes": [
-                        "10.20.0.0/16"
+                        "[concat(parameters('ipAddressPrefix'),'.0.0/16')]"
                     ]
                 },
                 "subnets": [
                     {
-                        "name": "bis-develop-publicsubnet1",
+                        "name": "[concat(parameters('vnetName'), '-publicsubnet1')]",
                         "properties": {
-                            "addressPrefix": "10.20.0.0/20",
+                            "addressPrefix": "[concat(parameters('ipAddressPrefix'), '.0.0/20')]",
                             "serviceEndpoints": [],
                             "delegations": [],
                             "privateEndpointNetworkPolicies": "Enabled",
@@ -37,9 +49,9 @@
                         }
                     },
                     {
-                        "name": "bis-develop-publicsubnet2",
+                        "name": "[concat(parameters('vnetName'), '-publicsubnet2')]",
                         "properties": {
-                            "addressPrefix": "10.20.16.0/20",
+                            "addressPrefix": "[concat(parameters('ipAddressPrefix'), '.16.0/20')]",
                             "serviceEndpoints": [],
                             "delegations": [],
                             "privateEndpointNetworkPolicies": "Enabled",
@@ -47,9 +59,9 @@
                         }
                     },
                     {
-                        "name": "bis-develop-publicsubnet3",
+                        "name": "[concat(parameters('vnetName'), '-publicsubnet3')]",
                         "properties": {
-                            "addressPrefix": "10.20.32.0/20",
+                            "addressPrefix": "[concat(parameters('ipAddressPrefix'), '.32.0/20')]",
                             "serviceEndpoints": [],
                             "delegations": [],
                             "privateEndpointNetworkPolicies": "Enabled",
@@ -57,9 +69,9 @@
                         }
                     },
                     {
-                        "name": "bis-develop-backendsubnet1",
+                        "name": "[concat(parameters('vnetName'), '-backendsubnet1')]",
                         "properties": {
-                            "addressPrefix": "10.20.48.0/20",
+                            "addressPrefix": "[concat(parameters('ipAddressPrefix'), '.48.0/20')]",
                             "serviceEndpoints": [],
                             "delegations": [],
                             "privateEndpointNetworkPolicies": "Enabled",
@@ -67,9 +79,9 @@
                         }
                     },
                     {
-                        "name": "bis-develop-backendsubnet2",
+                        "name": "[concat(parameters('vnetName'), '-backendsubnet2')]",
                         "properties": {
-                            "addressPrefix": "10.20.64.0/20",
+                            "addressPrefix": "[concat(parameters('ipAddressPrefix'), '.64.0/20')]",
                             "serviceEndpoints": [],
                             "delegations": [],
                             "privateEndpointNetworkPolicies": "Enabled",
@@ -77,9 +89,9 @@
                         }
                     },
                     {
-                        "name": "bis-develop-backendsubnet3",
+                        "name": "[concat(parameters('vnetName'), '-backendsubnet3')]",
                         "properties": {
-                            "addressPrefix": "10.20.80.0/20",
+                            "addressPrefix": "[concat(parameters('ipAddressPrefix'), '.80.0/20')]",
                             "serviceEndpoints": [],
                             "delegations": [],
                             "privateEndpointNetworkPolicies": "Enabled",
@@ -87,9 +99,9 @@
                         }
                     },
                     {
-                        "name": "bis-develop-reservedsubnet1",
+                        "name": "[concat(parameters('vnetName'), '-reservedsubnet1')]",
                         "properties": {
-                            "addressPrefix": "10.20.96.0/20",
+                            "addressPrefix": "[concat(parameters('ipAddressPrefix'), '.96.0/20')]",
                             "serviceEndpoints": [],
                             "delegations": [],
                             "privateEndpointNetworkPolicies": "Enabled",
@@ -97,9 +109,9 @@
                         }
                     },
                     {
-                        "name": "bis-develop-reservedsubnet2",
+                        "name": "[concat(parameters('vnetName'), '-reservedsubnet2')]",
                         "properties": {
-                            "addressPrefix": "10.20.112.0/20",
+                            "addressPrefix": "[concat(parameters('ipAddressPrefix'), '.112.0/20')]",
                             "serviceEndpoints": [],
                             "delegations": [],
                             "privateEndpointNetworkPolicies": "Enabled",
@@ -107,9 +119,9 @@
                         }
                     },
                     {
-                        "name": "bis-develop-reservedsubnet3",
+                        "name": "[concat(parameters('vnetName'), '-reservedsubnet3')]",
                         "properties": {
-                            "addressPrefix": "10.20.128.0/20",
+                            "addressPrefix": "[concat(parameters('ipAddressPrefix'), '.128.0/20')]",
                             "serviceEndpoints": [],
                             "delegations": [],
                             "privateEndpointNetworkPolicies": "Enabled",
@@ -117,15 +129,14 @@
                         }
                     },
                     {
-                        "name": "bis-develop-privatesubnet1",
+                        "name": "[concat(parameters('vnetName'), '-privatesubnet1')]",
                         "properties": {
-                            "addressPrefix": "10.20.144.0/20",
+                            "addressPrefix": "[concat(parameters('ipAddressPrefix'), '.144.0/20')]",
                             "serviceEndpoints": [
                                 {
                                     "service": "Microsoft.Storage",
                                     "locations": [
-                                        "canadacentral",
-                                        "canadaeast"
+                                        "[parameters('resourceLocation')]"
                                     ]
                                 }
                             ],
@@ -135,15 +146,14 @@
                         }
                     },
                     {
-                        "name": "bis-develop-privatesubnet2",
+                        "name": "[concat(parameters('vnetName'), '-privatesubnet2')]",
                         "properties": {
-                            "addressPrefix": "10.20.160.0/20",
+                            "addressPrefix": "[concat(parameters('ipAddressPrefix'), '.160.0/20')]",
                             "serviceEndpoints": [
                                 {
                                     "service": "Microsoft.Storage",
                                     "locations": [
-                                        "canadacentral",
-                                        "canadaeast"
+                                        "[parameters('resourceLocation')]"
                                     ]
                                 }
                             ],
@@ -153,15 +163,14 @@
                         }
                     },
                     {
-                        "name": "bis-develop-privatesubnet3",
+                        "name": "[concat(parameters('vnetName'), '-privatesubnet3')]",
                         "properties": {
-                            "addressPrefix": "10.20.176.0/20",
+                            "addressPrefix": "[concat(parameters('ipAddressPrefix'), '.176.0/20')]",
                             "serviceEndpoints": [
                                 {
                                     "service": "Microsoft.Storage",
                                     "locations": [
-                                        "canadacentral",
-                                        "canadaeast"
+                                        "[parameters('resourceLocation')]"
                                     ]
                                 }
                             ],
@@ -173,7 +182,7 @@
                     {
                         "name": "GatewaySubnet",
                         "properties": {
-                            "addressPrefix": "10.20.192.0/20",
+                            "addressPrefix": "[concat(parameters('ipAddressPrefix'), '.192.0/20')]",
                             "serviceEndpoints": [],
                             "delegations": [],
                             "privateEndpointNetworkPolicies": "Enabled",
@@ -189,12 +198,12 @@
         {
             "type": "Microsoft.Network/virtualNetworks/subnets",
             "apiVersion": "2019-11-01",
-            "name": "[concat(parameters('virtualNetworks_Bis_Dev_name'), '/', parameters('virtualNetworks_Bis_Dev_name'), '-backendsubnet1')]",
+            "name": "[concat(parameters('vnetName'), '/', parameters('vnetName'), '-backendsubnet1')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_Bis_Dev_name'))]"
+                "[resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName'))]"
             ],
             "properties": {
-                "addressPrefix": "10.20.48.0/20",
+                "addressPrefix": "[concat(parameters('ipAddressPrefix'), '.48.0/20')]",
                 "serviceEndpoints": [],
                 "delegations": [],
                 "privateEndpointNetworkPolicies": "Enabled",
@@ -204,12 +213,12 @@
         {
             "type": "Microsoft.Network/virtualNetworks/subnets",
             "apiVersion": "2019-11-01",
-            "name": "[concat(parameters('virtualNetworks_Bis_Dev_name'), '/', parameters('virtualNetworks_Bis_Dev_name'), '-backendsubnet2')]",
+            "name": "[concat(parameters('vnetName'), '/', parameters('vnetName'), '-backendsubnet2')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_Bis_Dev_name'))]"
+                "[resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName'))]"
             ],
             "properties": {
-                "addressPrefix": "10.20.64.0/20",
+                "addressPrefix": "[concat(parameters('ipAddressPrefix'), '.64.0/20')]",
                 "serviceEndpoints": [],
                 "delegations": [],
                 "privateEndpointNetworkPolicies": "Enabled",
@@ -219,12 +228,12 @@
         {
             "type": "Microsoft.Network/virtualNetworks/subnets",
             "apiVersion": "2019-11-01",
-            "name": "[concat(parameters('virtualNetworks_Bis_Dev_name'), '/', parameters('virtualNetworks_Bis_Dev_name'), '-backendsubnet3')]",
+            "name": "[concat(parameters('vnetName'), '/', parameters('vnetName'), '-backendsubnet3')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_Bis_Dev_name'))]"
+                "[resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName'))]"
             ],
             "properties": {
-                "addressPrefix": "10.20.80.0/20",
+                "addressPrefix": "[concat(parameters('ipAddressPrefix'), '.80.0/20')]",
                 "serviceEndpoints": [],
                 "delegations": [],
                 "privateEndpointNetworkPolicies": "Enabled",
@@ -234,18 +243,17 @@
         {
             "type": "Microsoft.Network/virtualNetworks/subnets",
             "apiVersion": "2019-11-01",
-            "name": "[concat(parameters('virtualNetworks_Bis_Dev_name'), '/', parameters('virtualNetworks_Bis_Dev_name'), '-privatesubnet1')]",
+            "name": "[concat(parameters('vnetName'), '/', parameters('vnetName'), '-privatesubnet1')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_Bis_Dev_name'))]"
+                "[resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName'))]"
             ],
             "properties": {
-                "addressPrefix": "10.20.144.0/20",
+                "addressPrefix": "[concat(parameters('ipAddressPrefix'), '.144.0/20')]",
                 "serviceEndpoints": [
                     {
                         "service": "Microsoft.Storage",
                         "locations": [
-                            "canadacentral",
-                            "canadaeast"
+                            "[parameters('resourceLocation')]"
                         ]
                     }
                 ],
@@ -257,18 +265,17 @@
         {
             "type": "Microsoft.Network/virtualNetworks/subnets",
             "apiVersion": "2019-11-01",
-            "name": "[concat(parameters('virtualNetworks_Bis_Dev_name'), '/', parameters('virtualNetworks_Bis_Dev_name'), '-privatesubnet2')]",
+            "name": "[concat(parameters('vnetName'), '/', parameters('vnetName'), '-privatesubnet2')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_Bis_Dev_name'))]"
+                "[resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName'))]"
             ],
             "properties": {
-                "addressPrefix": "10.20.160.0/20",
+                "addressPrefix": "[concat(parameters('ipAddressPrefix'), '.160.0/20')]",
                 "serviceEndpoints": [
                     {
                         "service": "Microsoft.Storage",
                         "locations": [
-                            "canadacentral",
-                            "canadaeast"
+                            "[parameters('resourceLocation')]"
                         ]
                     }
                 ],
@@ -280,18 +287,17 @@
         {
             "type": "Microsoft.Network/virtualNetworks/subnets",
             "apiVersion": "2019-11-01",
-            "name": "[concat(parameters('virtualNetworks_Bis_Dev_name'), '/', parameters('virtualNetworks_Bis_Dev_name'), '-privatesubnet3')]",
+            "name": "[concat(parameters('vnetName'), '/', parameters('vnetName'), '-privatesubnet3')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_Bis_Dev_name'))]"
+                "[resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName'))]"
             ],
             "properties": {
-                "addressPrefix": "10.20.176.0/20",
+                "addressPrefix": "[concat(parameters('ipAddressPrefix'), '.176.0/20')]",
                 "serviceEndpoints": [
                     {
                         "service": "Microsoft.Storage",
                         "locations": [
-                            "canadacentral",
-                            "canadaeast"
+                            "[parameters('resourceLocation')]"
                         ]
                     }
                 ],
@@ -303,12 +309,12 @@
         {
             "type": "Microsoft.Network/virtualNetworks/subnets",
             "apiVersion": "2019-11-01",
-            "name": "[concat(parameters('virtualNetworks_Bis_Dev_name'), '/', parameters('virtualNetworks_Bis_Dev_name'), '-publicsubnet1')]",
+            "name": "[concat(parameters('vnetName'), '/', parameters('vnetName'), '-publicsubnet1')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_Bis_Dev_name'))]"
+                "[resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName'))]"
             ],
             "properties": {
-                "addressPrefix": "10.20.0.0/20",
+                "addressPrefix": "[concat(parameters('ipAddressPrefix'), '.0.0/20')]",
                 "serviceEndpoints": [],
                 "delegations": [],
                 "privateEndpointNetworkPolicies": "Enabled",
@@ -318,12 +324,12 @@
         {
             "type": "Microsoft.Network/virtualNetworks/subnets",
             "apiVersion": "2019-11-01",
-            "name": "[concat(parameters('virtualNetworks_Bis_Dev_name'), '/', parameters('virtualNetworks_Bis_Dev_name'), '-publicsubnet2')]",
+            "name": "[concat(parameters('vnetName'), '/', parameters('vnetName'), '-publicsubnet2')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_Bis_Dev_name'))]"
+                "[resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName'))]"
             ],
             "properties": {
-                "addressPrefix": "10.20.16.0/20",
+                "addressPrefix": "[concat(parameters('ipAddressPrefix'), '.16.0/20')]",
                 "serviceEndpoints": [],
                 "delegations": [],
                 "privateEndpointNetworkPolicies": "Enabled",
@@ -333,12 +339,12 @@
         {
             "type": "Microsoft.Network/virtualNetworks/subnets",
             "apiVersion": "2019-11-01",
-            "name": "[concat(parameters('virtualNetworks_Bis_Dev_name'), '/', parameters('virtualNetworks_Bis_Dev_name'), '-publicsubnet3')]",
+            "name": "[concat(parameters('vnetName'), '/', parameters('vnetName'), '-publicsubnet3')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_Bis_Dev_name'))]"
+                "[resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName'))]"
             ],
             "properties": {
-                "addressPrefix": "10.20.32.0/20",
+                "addressPrefix": "[concat(parameters('ipAddressPrefix'), '.32.0/20')]",
                 "serviceEndpoints": [],
                 "delegations": [],
                 "privateEndpointNetworkPolicies": "Enabled",
@@ -348,12 +354,12 @@
         {
             "type": "Microsoft.Network/virtualNetworks/subnets",
             "apiVersion": "2019-11-01",
-            "name": "[concat(parameters('virtualNetworks_Bis_Dev_name'), '/', parameters('virtualNetworks_Bis_Dev_name'), '-reservedsubnet1')]",
+            "name": "[concat(parameters('vnetName'), '/', parameters('vnetName'), '-reservedsubnet1')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_Bis_Dev_name'))]"
+                "[resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName'))]"
             ],
             "properties": {
-                "addressPrefix": "10.20.96.0/20",
+                "addressPrefix": "[concat(parameters('ipAddressPrefix'), '.96.0/20')]",
                 "serviceEndpoints": [],
                 "delegations": [],
                 "privateEndpointNetworkPolicies": "Enabled",
@@ -363,12 +369,12 @@
         {
             "type": "Microsoft.Network/virtualNetworks/subnets",
             "apiVersion": "2019-11-01",
-            "name": "[concat(parameters('virtualNetworks_Bis_Dev_name'), '/', parameters('virtualNetworks_Bis_Dev_name'), '-reservedsubnet2')]",
+            "name": "[concat(parameters('vnetName'), '/', parameters('vnetName'), '-reservedsubnet2')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_Bis_Dev_name'))]"
+                "[resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName'))]"
             ],
             "properties": {
-                "addressPrefix": "10.20.112.0/20",
+                "addressPrefix": "[concat(parameters('ipAddressPrefix'), '.112.0/20')]",
                 "serviceEndpoints": [],
                 "delegations": [],
                 "privateEndpointNetworkPolicies": "Enabled",
@@ -378,12 +384,12 @@
         {
             "type": "Microsoft.Network/virtualNetworks/subnets",
             "apiVersion": "2019-11-01",
-            "name": "[concat(parameters('virtualNetworks_Bis_Dev_name'), '/', parameters('virtualNetworks_Bis_Dev_name'), '-reservedsubnet3')]",
+            "name": "[concat(parameters('vnetName'), '/', parameters('vnetName'), '-reservedsubnet3')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_Bis_Dev_name'))]"
+                "[resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName'))]"
             ],
             "properties": {
-                "addressPrefix": "10.20.128.0/20",
+                "addressPrefix": "[concat(parameters('ipAddressPrefix'), '.128.0/20')]",
                 "serviceEndpoints": [],
                 "delegations": [],
                 "privateEndpointNetworkPolicies": "Enabled",
@@ -393,12 +399,12 @@
         {
             "type": "Microsoft.Network/virtualNetworks/subnets",
             "apiVersion": "2019-11-01",
-            "name": "[concat(parameters('virtualNetworks_Bis_Dev_name'), '/GatewaySubnet')]",
+            "name": "[concat(parameters('vnetName'), '/GatewaySubnet')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_Bis_Dev_name'))]"
+                "[resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName'))]"
             ],
             "properties": {
-                "addressPrefix": "10.20.192.0/20",
+                "addressPrefix": "[concat(parameters('ipAddressPrefix'), '.192.0/20')]",
                 "serviceEndpoints": [],
                 "delegations": [],
                 "privateEndpointNetworkPolicies": "Enabled",
