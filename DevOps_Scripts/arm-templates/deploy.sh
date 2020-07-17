@@ -2,10 +2,11 @@
 
 # Common variables
 SUBSCRIPTION_ID="3f28f233-01b4-4f88-88aa-903f54eb850f"
+DATE_STRING=$(date +%Y%m%d%H%M%S%Z)
 
 # Resource group variables
 RESOURCE_GROUP_NAME="bis-develop"
-RESOURCE_GROUP_Location="canadacentral"
+RESOURCE_GROUP_Location="eastus"
 
 # Network variables
 VNET_NAME=$RESOURCE_GROUP_NAME
@@ -25,6 +26,7 @@ AKS_VERSION="1.16.10"
 AKS_SERVICE_CIDR="10.8.0.0/16"   # Do not overlap with VNET CIDR
 AKS_DNS_IP="10.8.0.10"  # Should be in AKS_SERVICE_CIDR
 AKS_SERVICEPRINCIPAL_NAME="bisDevelopK8SServicePrincipal"
+AKS_WORKSPACE_NAME=${RESOURCE_GROUP_NAME}-k8s-workspace-${DATE_STRING}
 
 # Function to set subscription
 function setSubscription() {
@@ -63,15 +65,17 @@ function createContainerRegistry() {
 
 # Function to create Kubernetes cluster
 function createAksCluster() {
-    echo "Creating the AKS cluster"
+    echo "Creating the AKS Service principal"
     output=$(az ad sp create-for-rbac --skip-assignment --name ${AKS_SERVICEPRINCIPAL_NAME})
     appId=$(echo $output | jq -r '.appId')
     appSecret=$(echo $output | jq -r '.password')
 
     output=$(az ad sp list --display-name ${AKS_SERVICEPRINCIPAL_NAME})
-    objectId=$(echo $output | grep objectId | awk '{print $2}' | sed 's|,||' | sed 's|"||g')
+    objectId=$(echo $output | jq -r '.[].objectId')
 
-    omsWorkspaceId="/subscriptions/${SUBSCRIPTION_ID}/resourceGroups/${RESOURCE_GROUP_NAME}/providers/Microsoft.OperationalInsights/workspaces/${AKS_RESOURCE_NAME}-k8s-workspace"
+    echo "Creating the AKS cluster"
+    sleep 10
+    omsWorkspaceId="/subscriptions/${SUBSCRIPTION_ID}/resourceGroups/${RESOURCE_GROUP_NAME}/providers/Microsoft.OperationalInsights/workspaces/${AKS_WORKSPACE_NAME}"
     vnetSubnetID="/subscriptions/${SUBSCRIPTION_ID}/resourceGroups/${RESOURCE_GROUP_NAME}/providers/Microsoft.Network/virtualNetworks/bis-develop/subnets/${RESOURCE_GROUP_NAME}-privatesubnet1"
 
     az deployment group create --resource-group ${RESOURCE_GROUP_NAME}  \
@@ -80,9 +84,9 @@ function createAksCluster() {
         resourceName=${AKS_RESOURCE_NAME} location=${AKS_LOCATION} \
         kubernetesVersion=${AKS_VERSION} servicePrincipalClientId=${appId} \
         servicePrincipalClientSecret=${appSecret} principalId=${objectId} \
-        omsWorkspaceId=${omsWorkspaceId} vnetSubnetID=${vnetSubnetID}
-        workspaceRegion=${AKS_LOCATION} serviceCidr=${AKS_SERVICE_CIDR} \
-        dnsServiceIP=${AKS_DNS_IP}
+        omsWorkspaceId=${omsWorkspaceId} vnetSubnetID=${vnetSubnetID} \
+        workspaceName=${AKS_WORKSPACE_NAME} workspaceRegion=${AKS_LOCATION} \
+        serviceCidr=${AKS_SERVICE_CIDR} dnsServiceIP=${AKS_DNS_IP}
 }
 
 # Function to create integration between ACR and AKS
@@ -96,8 +100,10 @@ function cleanUp() {
     echo "Starting the cleanup"
     az group delete -n ${RESOURCE_GROUP_NAME}
     output=$(az ad sp list --display-name ${AKS_SERVICEPRINCIPAL_NAME})
-    objectId=$(echo $output | grep objectId | awk '{print $2}' | sed 's|,||' | sed 's|"||g')
+    objectId=$(echo $output | jq -r '.[].objectId')
     az ad sp delete --id $objectId
+
+    az deployment sub delete -n ${RESOURCE_GROUP_NAME}-rg-deployment
 }
 
 export Command_Usage="Usage: ./deploy.sh -o [OPTION...]"
