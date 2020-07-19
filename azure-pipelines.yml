@@ -1,19 +1,91 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
+# Deploy to Azure Kubernetes Service
+# Build and push image to Azure Container Registry; Deploy to Azure Kubernetes Service
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
 trigger:
-- master
+  branches:
+    include:
+    - dev
+    - qa
+    - test
+    exclude:
+    - master
+    - releases/old*
+    - releases/*
 
-pool:
-  vmImage: 'ubuntu-latest'
+resources:
+- repo: self
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+variables:
+
+  # Container registry service connection established during pipeline creation
+  imageRepository: $(Build.Repository.Name)
+  dockerfilePath: '**/Dockerfile'
+  tag: '$(Build.BuildId)'
+
+  ${{ if eq(variables['Build.SourceBranchName'], 'master') }}:
+    environment: 'bis-infra.bis-prod'
+    dockerRegistryServiceConnection: 'bis-prod'
+    containerRegistry: 'bisprod.azurecr.io'
+  ${{ if eq(variables['Build.SourceBranchName'], 'qa') }}:
+    environment: 'bis-infra.bis-qa'
+    containerRegistry: 'bisqa.azurecr.io'
+    dockerRegistryServiceConnection: 'bis-qa'
+  ${{ if eq(variables['Build.SourceBranchName'], 'test') }}:
+    environment: 'bis-infra.bis-test'
+    containerRegistry: 'bistest.azurecr.io'
+    dockerRegistryServiceConnection: 'bis-test'
+  ${{ if eq(variables['Build.SourceBranchName'], 'dev') }}:
+    environment: 'bis-infra.bis-dev'
+    containerRegistry: 'bisdev.azurecr.io'
+    dockerRegistryServiceConnection: 'bis-dev'
+
+  # Agent VM image name
+  vmImageName: 'ubuntu-latest'
+
+stages:
+- stage: Build
+  displayName: Build stage
+  jobs:  
+  - job: Build
+    displayName: Build
+    pool:
+      vmImage: $(vmImageName)
+    steps:
+    - task: Docker@2
+      displayName: Build and push an image to container registry
+      inputs:
+        command: buildAndPush
+        repository: $(imageRepository)
+        dockerfile: $(dockerfilePath)
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(tag)
+          
+    - upload: k8s-infra
+      artifact: k8s-infra
+
+- stage: Deploy
+  displayName: Deploy stage
+  dependsOn: Build
+
+  jobs:
+  - deployment: Deploy
+    displayName: Deploy
+    pool:
+      vmImage: $(vmImageName)
+    environment: $(environment)
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: KubernetesManifest@0
+            displayName: Deploy to Kubernetes cluster
+            inputs:
+              action: deploy
+              manifests: |
+                $(Pipeline.Workspace)/k8s-infra/deployment.yml
+                $(Pipeline.Workspace)/k8s-infra/service.yml
+              containers: |
+                $(containerRegistry)/$(imageRepository):$(tag)
