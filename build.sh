@@ -11,4 +11,6 @@ export image="bisdevelop.azurecr.io/bis-backend-core-app:5"
 export K8S_NAMESPACE="bis-develop"
 
 
+kubectl create secret generic appsettings --from-file=./appsettings.json -n "<< k8s workspace >>"
+
 envsub < ./K8s-Infra/K8s-Deployment/bis-backend-app-deployment.yaml
