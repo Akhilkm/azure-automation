@@ -1,0 +1,69 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bis-frontend-app-deployment
+  labels:
+    io.kompose.service: bis-frontend-app
+spec:
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1        # how many pods we can add at a time
+      maxUnavailable: 1  # how many pods can be unavailable during the rolling update
+  minReadySeconds: 5
+  revisionHistoryLimit: 1
+  replicas: 3
+  selector:
+    matchLabels:
+        io.kompose.service: bis-frontend-app
+  template:
+    metadata:
+      labels:
+        io.kompose.service: bis-frontend-app
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                - key: agentpool
+                  operator: In
+                  values:
+                    - agentpool
+      containers:
+      - name: bis-frontend-app
+        # args:
+        #   - "-c"
+        #   - "nginx -g daemon off;"
+        # command: 
+        #   - /bin/sh
+        image: bisdev.azurecr.io/bis-frontend-app:version
+        ports:
+          - containerPort: 3456
+        # readinessProbe:
+        #   httpGet:
+        #     path: /swagger
+        #     port: 3456
+        #   initialDelaySeconds: 10
+        #   periodSeconds: 10
+        env:
+        - name: K8S_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+
+        - name: "repo_project"
+          value: "bis-frontend-app"
+        # volumeMounts:
+        #   - name: appsettings
+        #     mountPath: "<<path to appsettings.json>>"
+        #     subPath: appsettings.json
+        #     readOnly: true
+      restartPolicy: Always
+      # volumes:
+      # - name: appsettings
+      #   secret:
+      #     secretName: appsettings
+      #     items:
+      #       - key: appsettings.json
+      #         path: appsettings.json
