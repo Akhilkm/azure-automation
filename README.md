@@ -2,9 +2,7 @@
 BIS infrastructure repository
 
 # Naming convention
-```
 Project-Environment-extension
-```
 
 Environment | Resource Name     |
 ------------|-------------------|
@@ -15,6 +13,18 @@ QA          | bis-qa            |
 Test        | bis-test          |
 ------------|-------------------|
 Devopment   | bis-dev           |
+
+Docker Registry Naming
+
+Environment | Resource Name     |
+------------|-------------------|
+Production  | bisprod          |
+------------|-------------------|
+QA          | bisqa            |
+------------|-------------------|
+Test        | bistest          |
+------------|-------------------|
+Devopment   | bisdev           |
 
 # Steps to create infra
 ```
