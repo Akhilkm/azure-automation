@@ -38,8 +38,7 @@ Devopment   | dev               |
 
 # Steps to create CI/CD infra
 ```
-Create secrets in kubernets (if security enabled.)
-kubectl create secret generic appsettings --from-file=./appsettings.json -n "<< k8s workspace >>"
+Copy the required files and folders from infra repo.
 
 Create Service connection for Docker registry (bis-dev/ bis-qa..)
 
