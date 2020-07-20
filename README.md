@@ -18,13 +18,27 @@ Docker Registry Naming
 
 Environment | Resource Name     |
 ------------|-------------------|
-Production  | bisprod          |
+Production  | bisprod           |
 ------------|-------------------|
-QA          | bisqa            |
+QA          | bisqa             |
 ------------|-------------------|
-Test        | bistest          |
+Test        | bistest           |
 ------------|-------------------|
-Devopment   | bisdev           |
+Devopment   | bisdev            |
+
+Git Branch Naming
+
+Docker Registry Naming
+
+Environment | Resource Name     |
+------------|-------------------|
+Production  | master            |
+------------|-------------------|
+QA          | qa                |
+------------|-------------------|
+Test        | test              |
+------------|-------------------|
+Devopment   | dev               |
 
 # Steps to create infra
 ```
