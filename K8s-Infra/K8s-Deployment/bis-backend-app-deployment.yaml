@@ -51,10 +51,19 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.namespace
-              
-        - name: "DeploymentTime"
-          value: "2020-07-11--13-48-54--IST"
 
         - name: "repo_project"
           value: "bis-backend-app"
+        # volumeMounts:
+        #   - name: appsettings
+        #     mountPath: "<<path to appsettings.json>>"
+        #     subPath: appsettings.json
+        #     readOnly: true
       restartPolicy: Always
+      # volumes:
+      # - name: appsettings
+      #   secret:
+      #     secretName: appsettings
+      #     items:
+      #       - key: appsettings.json
+      #         path: appsettings.json
