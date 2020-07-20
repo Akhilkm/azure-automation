@@ -14,4 +14,4 @@ QA          | bis-qa            |
 ------------|-------------------|
 Test        | bis-test          |
 ------------|-------------------|
-Devopment   | bis-develop       |
+Devopment   | bis-dev           |
