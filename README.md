@@ -38,9 +38,6 @@ Devopment   | dev               |
 
 # Steps to create CI/CD infra
 ```
-Createing kubernetes namespace
-kubectl create bis-dev
-
 Create secrets in kubernets (if security enabled.)
 kubectl create secret generic appsettings --from-file=./appsettings.json -n "<< k8s workspace >>"
 
