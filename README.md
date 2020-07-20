@@ -7,11 +7,8 @@ Project-Environment-extension
 Environment | Resource Name     |
 ------------|-------------------|
 Production  | bis-prod          |
-------------|-------------------|
 QA          | bis-qa            |
-------------|-------------------|
 Test        | bis-test          |
-------------|-------------------|
 Devopment   | bis-dev           |
 
 Docker Registry Naming
@@ -19,11 +16,8 @@ Docker Registry Naming
 Environment | Resource Name     |
 ------------|-------------------|
 Production  | bisprod           |
-------------|-------------------|
 QA          | bisqa             |
-------------|-------------------|
 Test        | bistest           |
-------------|-------------------|
 Devopment   | bisdev            |
 
 Git Branch Naming
@@ -33,11 +27,8 @@ Docker Registry Naming
 Environment | Resource Name     |
 ------------|-------------------|
 Production  | master            |
-------------|-------------------|
 QA          | qa                |
-------------|-------------------|
 Test        | test              |
-------------|-------------------|
 Devopment   | dev               |
 
 # Steps to create infra
