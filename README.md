@@ -29,9 +29,9 @@ kubectl create bis-dev
 Create secrets in kubernets (if security enabled.)
 kubectl create secret generic appsettings --from-file=./appsettings.json -n "<< k8s workspace >>"
 
-Create Service connection for Docker registry
+Create Service connection for Docker registry (bis-dev/ bis-qa..)
 
-Create Enivronment in pipeline
+Create Enivronment in pipeline (bis-infra => create multiple values (bis-dev/ bis-qa..))
 
 Create the pipeline
 ```
