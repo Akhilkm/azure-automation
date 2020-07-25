@@ -22,24 +22,21 @@ variables:
   # Container registry service connection established during pipeline creation
   imageRepository: $(Build.Repository.Name)
   dockerfilePath: '**/Dockerfile'
-  tag: '$(Build.BuildId)'
+  containerRegistry: 'epicbis.azurecr.io'
+  dockerRegistryServiceConnection: 'epicbis-registry'
 
   ${{ if eq(variables['Build.SourceBranchName'], 'master') }}:
     environment: 'bis-infra.bis-prod'
-    dockerRegistryServiceConnection: 'bis-prod'
-    containerRegistry: 'bisprod.azurecr.io'
+    tag: 'prod-$(Build.BuildId)'
   ${{ if eq(variables['Build.SourceBranchName'], 'qa') }}:
     environment: 'bis-infra.bis-qa'
-    containerRegistry: 'bisqa.azurecr.io'
-    dockerRegistryServiceConnection: 'bis-qa'
+    tag: 'qa-$(Build.BuildId)'
   ${{ if eq(variables['Build.SourceBranchName'], 'test') }}:
     environment: 'bis-infra.bis-test'
-    containerRegistry: 'bistest.azurecr.io'
-    dockerRegistryServiceConnection: 'bis-test'
+    tag: 'test-$(Build.BuildId)'
   ${{ if eq(variables['Build.SourceBranchName'], 'dev') }}:
     environment: 'bis-infra.bis-dev'
-    containerRegistry: 'bisdev.azurecr.io'
-    dockerRegistryServiceConnection: 'bis-dev'
+    tag: 'dev-$(Build.BuildId)'
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
