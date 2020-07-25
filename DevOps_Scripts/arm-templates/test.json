@@ -6718,14 +6718,14 @@
     "accountEnabled": "True",
     "addIns": [],
     "alternativeNames": [],
-    "appDisplayName": "kuberiter-EPIC-TestRun-3f28f233-01b4-4f88-88aa-903f54eb850f",
+    "appDisplayName": "kuberiter-PJT-TestRun-3f28f233-01b4-4f88-88aa-903f54eb850f",
     "appId": "0bc6c95d-8c5b-4cc5-9835-73b957a8b191",
     "appOwnerTenantId": "650fbf46-38d3-4ad8-9e78-180ea9f86f42",
     "appRoleAssignmentRequired": false,
     "appRoles": [],
     "applicationTemplateId": null,
     "deletionTimestamp": null,
-    "displayName": "kuberiter-EPIC-TestRun-3f28f233-01b4-4f88-88aa-903f54eb850f",
+    "displayName": "kuberiter-PJT-TestRun-3f28f233-01b4-4f88-88aa-903f54eb850f",
     "errorUrl": null,
     "homepage": "https://VisualStudio/SPN",
     "informationalUrls": {
@@ -6739,13 +6739,13 @@
     "notificationEmailAddresses": [],
     "oauth2Permissions": [
       {
-        "adminConsentDescription": "Allow the application to access kuberiter-EPIC-TestRun-3f28f233-01b4-4f88-88aa-903f54eb850f on behalf of the signed-in user.",
-        "adminConsentDisplayName": "Access kuberiter-EPIC-TestRun-3f28f233-01b4-4f88-88aa-903f54eb850f",
+        "adminConsentDescription": "Allow the application to access kuberiter-PJT-TestRun-3f28f233-01b4-4f88-88aa-903f54eb850f on behalf of the signed-in user.",
+        "adminConsentDisplayName": "Access kuberiter-PJT-TestRun-3f28f233-01b4-4f88-88aa-903f54eb850f",
         "id": "0ebdb4a3-56c2-48f1-8a04-0f4b05ae46b9",
         "isEnabled": true,
         "type": "User",
-        "userConsentDescription": "Allow the application to access kuberiter-EPIC-TestRun-3f28f233-01b4-4f88-88aa-903f54eb850f on your behalf.",
-        "userConsentDisplayName": "Access kuberiter-EPIC-TestRun-3f28f233-01b4-4f88-88aa-903f54eb850f",
+        "userConsentDescription": "Allow the application to access kuberiter-PJT-TestRun-3f28f233-01b4-4f88-88aa-903f54eb850f on your behalf.",
+        "userConsentDisplayName": "Access kuberiter-PJT-TestRun-3f28f233-01b4-4f88-88aa-903f54eb850f",
         "value": "user_impersonation"
       }
     ],

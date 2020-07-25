@@ -34,7 +34,7 @@ spec:
       - name: temp-backend-app
         args:
           - "-c"
-          - "dotnet EPIC.TEMP.API.Core.dll"
+          - "dotnet PJT.TEMP.API.Core.dll"
         command: 
           - /bin/sh
         image: tempdevelop.azurecr.io/temp-backend-core-app:6
