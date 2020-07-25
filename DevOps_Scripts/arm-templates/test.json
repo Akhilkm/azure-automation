@@ -639,16 +639,16 @@
     "accountEnabled": "True",
     "addIns": [],
     "alternativeNames": [],
-    "appDisplayName": "bisDevelopK8SServicePrincipal",
+    "appDisplayName": "tempDevelopK8SServicePrincipal",
     "appId": "5fa488b7-6446-4b1a-b730-18b87b907898",
     "appOwnerTenantId": "650fbf46-38d3-4ad8-9e78-180ea9f86f42",
     "appRoleAssignmentRequired": false,
     "appRoles": [],
     "applicationTemplateId": null,
     "deletionTimestamp": null,
-    "displayName": "bisDevelopK8SServicePrincipal",
+    "displayName": "tempDevelopK8SServicePrincipal",
     "errorUrl": null,
-    "homepage": "https://bisDevelopK8SServicePrincipal",
+    "homepage": "https://tempDevelopK8SServicePrincipal",
     "informationalUrls": {
       "marketing": null,
       "privacy": null,
@@ -660,13 +660,13 @@
     "notificationEmailAddresses": [],
     "oauth2Permissions": [
       {
-        "adminConsentDescription": "Allow the application to access bisDevelopK8SServicePrincipal on behalf of the signed-in user.",
-        "adminConsentDisplayName": "Access bisDevelopK8SServicePrincipal",
+        "adminConsentDescription": "Allow the application to access tempDevelopK8SServicePrincipal on behalf of the signed-in user.",
+        "adminConsentDisplayName": "Access tempDevelopK8SServicePrincipal",
         "id": "fd341dca-afb4-4b9b-adce-2948e52ad30e",
         "isEnabled": true,
         "type": "User",
-        "userConsentDescription": "Allow the application to access bisDevelopK8SServicePrincipal on your behalf.",
-        "userConsentDisplayName": "Access bisDevelopK8SServicePrincipal",
+        "userConsentDescription": "Allow the application to access tempDevelopK8SServicePrincipal on your behalf.",
+        "userConsentDisplayName": "Access tempDevelopK8SServicePrincipal",
         "value": "user_impersonation"
       }
     ],
@@ -682,7 +682,7 @@
     "samlMetadataUrl": null,
     "samlSingleSignOnSettings": null,
     "servicePrincipalNames": [
-      "http://bisDevelopK8SServicePrincipal",
+      "http://tempDevelopK8SServicePrincipal",
       "5fa488b7-6446-4b1a-b730-18b87b907898"
     ],
     "servicePrincipalType": "Application",

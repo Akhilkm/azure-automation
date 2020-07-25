@@ -4,7 +4,7 @@
     "parameters": {
         "registryName": {
             "type": "string",
-            "defaultValue": "bisdevelop"
+            "defaultValue": "tempdevelop"
         },
         "registryLocation": {
             "type": "string",

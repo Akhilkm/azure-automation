@@ -3,10 +3,10 @@ kind: Service
 metadata:
   annotations:
     # service.beta.kubernetes.io/azure-load-balancer-internal: "true"
-    service.beta.kubernetes.io/azure-load-balancer-internal-subnet: "bis-dev-publicsubnet1"
+    service.beta.kubernetes.io/azure-load-balancer-internal-subnet: "temp-dev-publicsubnet1"
   labels:
-    io.kompose.service: bis-backend-app
-  name: bis-backend-app
+    io.kompose.service: temp-backend-app
+  name: temp-backend-app
 spec:
   type: LoadBalancer
     # loadBalancerIP: 10.240.0.25
@@ -15,4 +15,4 @@ spec:
     port: 80
     targetPort: 80
   selector:
-    io.kompose.service: bis-backend-app
+    io.kompose.service: temp-backend-app

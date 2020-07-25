@@ -3,14 +3,14 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "resourceGroup": {
-            "defaultValue": "bis-develop",
+            "defaultValue": "temp-develop",
             "type": "string",
             "metadata": {
                 "description": "The name of Resource Group."
             }
         },
         "resourceName": {
-            "defaultValue": "bis-develop",
+            "defaultValue": "temp-develop",
             "type": "string",
             "metadata": {
                 "description": "The name of the Managed Cluster resource."

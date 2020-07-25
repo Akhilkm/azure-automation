@@ -25,21 +25,21 @@ variables:
   tag: '$(Build.BuildId)'
 
   ${{ if eq(variables['Build.SourceBranchName'], 'master') }}:
-    environment: 'bis-infra.bis-prod'
-    dockerRegistryServiceConnection: 'bis-prod'
-    containerRegistry: 'bisprod.azurecr.io'
+    environment: 'temp-infra.temp-prod'
+    dockerRegistryServiceConnection: 'temp-prod'
+    containerRegistry: 'tempprod.azurecr.io'
   ${{ if eq(variables['Build.SourceBranchName'], 'qa') }}:
-    environment: 'bis-infra.bis-qa'
-    containerRegistry: 'bisqa.azurecr.io'
-    dockerRegistryServiceConnection: 'bis-qa'
+    environment: 'temp-infra.temp-qa'
+    containerRegistry: 'tempqa.azurecr.io'
+    dockerRegistryServiceConnection: 'temp-qa'
   ${{ if eq(variables['Build.SourceBranchName'], 'test') }}:
-    environment: 'bis-infra.bis-test'
-    containerRegistry: 'bistest.azurecr.io'
-    dockerRegistryServiceConnection: 'bis-test'
+    environment: 'temp-infra.temp-test'
+    containerRegistry: 'temptest.azurecr.io'
+    dockerRegistryServiceConnection: 'temp-test'
   ${{ if eq(variables['Build.SourceBranchName'], 'dev') }}:
-    environment: 'bis-infra.bis-dev'
-    containerRegistry: 'bisdev.azurecr.io'
-    dockerRegistryServiceConnection: 'bis-dev'
+    environment: 'temp-infra.temp-dev'
+    containerRegistry: 'tempdev.azurecr.io'
+    dockerRegistryServiceConnection: 'temp-dev'
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
@@ -93,10 +93,10 @@ stages:
 # - task: AzureCLI@2
 #   displayName: Azure CLI
 #   inputs:
-#     azureSubscription: bis-develop
+#     azureSubscription: temp-develop
 #     scriptType: bash
 #     scriptLocation: inlineScript
 #     inlineScript: |
 #       az --version
 #       az account show
-#       az aks get-credentials --name bis-develop --resource-group bis-develop
+#       az aks get-credentials --name temp-develop --resource-group temp-develop

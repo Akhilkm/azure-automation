@@ -1,9 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: bis-backend-app-deployment
+  name: temp-backend-app-deployment
   labels:
-    io.kompose.service: bis-backend-app
+    io.kompose.service: temp-backend-app
 spec:
   strategy:
     type: RollingUpdate
@@ -15,11 +15,11 @@ spec:
   replicas: 3
   selector:
     matchLabels:
-        io.kompose.service: bis-backend-app
+        io.kompose.service: temp-backend-app
   template:
     metadata:
       labels:
-        io.kompose.service: bis-backend-app
+        io.kompose.service: temp-backend-app
     spec:
       affinity:
         nodeAffinity:
@@ -31,13 +31,13 @@ spec:
                   values:
                     - agentpool
       containers:
-      - name: bis-backend-app
+      - name: temp-backend-app
         args:
           - "-c"
-          - "dotnet EPIC.BIS.API.Core.dll"
+          - "dotnet EPIC.TEMP.API.Core.dll"
         command: 
           - /bin/sh
-        image: bisdevelop.azurecr.io/bis-backend-core-app:6
+        image: tempdevelop.azurecr.io/temp-backend-core-app:6
         ports:
           - containerPort: 80
         readinessProbe:
@@ -53,7 +53,7 @@ spec:
               fieldPath: metadata.namespace
 
         - name: "repo_project"
-          value: "bis-backend-app"
+          value: "temp-backend-app"
         # volumeMounts:
         #   - name: appsettings
         #     mountPath: "<<path to appsettings.json>>"

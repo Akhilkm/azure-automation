@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "vnetName": {
-            "defaultValue": "bis-develop",
+            "defaultValue": "temp-develop",
             "type": "String"
         },
         "ipAddressPrefix": {

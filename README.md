@@ -1,24 +1,24 @@
-# BIS-Infrastructure
-BIS infrastructure repository
+# TEMP-Infrastructure
+TEMP infrastructure repository
 
 # Naming convention
 Project-Environment-extension
 
 Environment | Resource Name     |
 ------------|-------------------|
-Production  | bis-prod          |
-QA          | bis-qa            |
-Test        | bis-test          |
-Devopment   | bis-dev           |
+Production  | temp-prod          |
+QA          | temp-qa            |
+Test        | temp-test          |
+Devopment   | temp-dev           |
 
 Docker Registry Naming
 
 Environment | Resource Name     |
 ------------|-------------------|
-Production  | bisprod           |
-QA          | bisqa             |
-Test        | bistest           |
-Devopment   | bisdev            |
+Production  | tempprod           |
+QA          | tempqa             |
+Test        | temptest           |
+Devopment   | tempdev            |
 
 Git Branch Naming
 
@@ -40,9 +40,9 @@ Devopment   | dev               |
 ```
 Copy the required files and folders from infra repo.
 
-Create Service connection for Docker registry (bis-dev/ bis-qa..)
+Create Service connection for Docker registry (temp-dev/ temp-qa..)
 
-Create Enivronment in pipeline (bis-infra => create multiple values (bis-dev/ bis-qa..))
+Create Enivronment in pipeline (temp-infra => create multiple values (temp-dev/ temp-qa..))
 
 Create the pipeline
 ```
