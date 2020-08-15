@@ -1,3 +1,3 @@
 #!/bin/bash
 
-export bis_backend_app_backbone="dotnet EPIC.BIS.API.Core.dll"
+export temp_backend_app_backbone="dotnet PJT.TEMP.API.Core.dll"
