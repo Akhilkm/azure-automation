@@ -1,12 +1,12 @@
 #!/bin/bash
 
-kubectl create ns bis-dev
+kubectl create ns temp-dev
 
 az devops login --organization kuberiter
 
-az pipelines create --name bis-frontend-app --description 'Pipeline for bis-frontend-app project' \
-                    --repository bis-frontend-app --branch dev --repository-type tfsgit \
-                    --project EPIC-TestRun --organization https://dev.azure.com/kuberiter/ \
+az pipelines create --name temp-frontend-app --description 'Pipeline for temp-frontend-app project' \
+                    --repository temp-frontend-app --branch dev --repository-type tfsgit \
+                    --project PJT-TestRun --organization https://dev.azure.com/kuberiter/ \
                     --skip-first-run true --yaml azure-pipelines.yml
 
 

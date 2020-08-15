@@ -1,9 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: bis-frontend-app-deployment
+  name: temp-frontend-app-deployment
   labels:
-    io.kompose.service: bis-frontend-app
+    io.kompose.service: temp-frontend-app
 spec:
   strategy:
     type: RollingUpdate
@@ -15,11 +15,11 @@ spec:
   replicas: 3
   selector:
     matchLabels:
-        io.kompose.service: bis-frontend-app
+        io.kompose.service: temp-frontend-app
   template:
     metadata:
       labels:
-        io.kompose.service: bis-frontend-app
+        io.kompose.service: temp-frontend-app
     spec:
       affinity:
         nodeAffinity:
@@ -31,19 +31,19 @@ spec:
                   values:
                     - agentpool
       containers:
-      - name: bis-frontend-app
+      - name: temp-frontend-app
         # args:
         #   - "-c"
         #   - "nginx -g daemon off;"
         # command: 
         #   - /bin/sh
-        image: bisdev.azurecr.io/bis-frontend-app:version
+        image: tempdev.azurecr.io/temp-frontend-app:version
         ports:
-          - containerPort: 3456
+          - containerPort: 80
         # readinessProbe:
         #   httpGet:
         #     path: /swagger
-        #     port: 3456
+        #     port: 80
         #   initialDelaySeconds: 10
         #   periodSeconds: 10
         env:
@@ -54,16 +54,4 @@ spec:
 
         - name: "repo_project"
           value: "bis-frontend-app"
-        # volumeMounts:
-        #   - name: appsettings
-        #     mountPath: "<<path to appsettings.json>>"
-        #     subPath: appsettings.json
-        #     readOnly: true
       restartPolicy: Always
-      # volumes:
-      # - name: appsettings
-      #   secret:
-      #     secretName: appsettings
-      #     items:
-      #       - key: appsettings.json
-      #         path: appsettings.json

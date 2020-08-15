@@ -86,14 +86,3 @@ stages:
                 $(Pipeline.Workspace)/k8s-infra/service.yml
               containers: |
                 $(containerRegistry)/$(imageRepository):$(tag)
-
-# - task: AzureCLI@2
-#   displayName: Azure CLI
-#   inputs:
-#     azureSubscription: bis-develop
-#     scriptType: bash
-#     scriptLocation: inlineScript
-#     inlineScript: |
-#       az --version
-#       az account show
-#       az aks get-credentials --name bis-develop --resource-group bis-develop

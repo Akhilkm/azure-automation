@@ -70,21 +70,21 @@ EOF
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: bis-backend-app-ingress
+  name: temp-backend-app-ingress
   annotations:
     kubernetes.io/ingress.class: nginx
     cert-manager.io/cluster-issuer: letsencrypt
 spec:
   tls:
   - hosts:
-    - <<Replace with bis-backend-app url>>
+    - <<Replace with temp-backend-app url>>
     secretName: tls-secret
   rules:
-  - host: <<Replace with bis-backend-app url>>
+  - host: <<Replace with temp-backend-app url>>
     http:
       paths:
       - backend:
-          serviceName: bis-backend-app-develop
+          serviceName: temp-backend-app-develop
           servicePort: 80
 ```
 
@@ -102,6 +102,6 @@ helm list --namespace ingress-basic
 
 helm delete cert-manager nginx --namespace ingress-basic
 
-kubectl delete ingress bis-backend-app-ingress -n bis-develop
+kubectl delete ingress temp-backend-app-ingress -n temp-develop
 kubectl delete namespace ingress-basic
 ```
