@@ -2,8 +2,8 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    io.kompose.service: bis-frontend-app
-  name: bis-frontend-app
+    io.kompose.service: temp-frontend-app
+  name: temp-frontend-app
 spec:
   type: ClusterIP
   ports:
@@ -11,4 +11,4 @@ spec:
     port: 80
     targetPort: 80
   selector:
-    io.kompose.service: bis-frontend-app
+    io.kompose.service: temp-frontend-app

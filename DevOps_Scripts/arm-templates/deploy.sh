@@ -5,7 +5,7 @@ SUBSCRIPTION_ID="3f28f233-01b4-4f88-88aa-903f54eb850f"
 DATE_STRING=$(date +%Y%m%d%H%M%S%Z)
 
 # Resource group variables
-RESOURCE_GROUP_NAME="bis-dev"
+RESOURCE_GROUP_NAME="temp-dev"
 RESOURCE_GROUP_LOCATION="eastus"
 
 # Network variables
@@ -14,7 +14,7 @@ VNET_LOCATION=$RESOURCE_GROUP_LOCATION
 NETWORK_PREFIX="10.1"
 
 # ACR variables
-REGISTRY_NAME="bisdev"
+REGISTRY_NAME="tempdev"
 PUBLIC_NETWORK_ACCESS="Enabled"
 REGISTRY_SKU="Standard"
 REGISTRY_LOCATION=$RESOURCE_GROUP_LOCATION
@@ -25,7 +25,7 @@ AKS_LOCATION=$RESOURCE_GROUP_LOCATION
 AKS_VERSION="1.16.10"
 AKS_SERVICE_CIDR="10.8.0.0/16"   # Do not overlap with VNET CIDR
 AKS_DNS_IP="10.8.0.10"  # Should be in AKS_SERVICE_CIDR
-AKS_SERVICEPRINCIPAL_NAME="bisDevK8SServicePrincipal"
+AKS_SERVICEPRINCIPAL_NAME="tempDevK8SServicePrincipal"
 AKS_WORKSPACE_NAME=${RESOURCE_GROUP_NAME}-k8s-workspace-${DATE_STRING}
 AKS_VNET_SUBNETID="/subscriptions/${SUBSCRIPTION_ID}/resourceGroups/${RESOURCE_GROUP_NAME}/providers/Microsoft.Network/virtualNetworks/${VNET_NAME}/subnets/${RESOURCE_GROUP_NAME}-privatesubnet1"
 AKS_OMS_WORKSPACEID="/subscriptions/${SUBSCRIPTION_ID}/resourceGroups/${RESOURCE_GROUP_NAME}/providers/Microsoft.OperationalInsights/workspaces/${AKS_WORKSPACE_NAME}"
@@ -39,7 +39,7 @@ function setSubscription() {
 # Function to create Resource Group
 function createResourceGroup() {
     echo "Creating the resource group"
-    az deployment sub create --location ${RESOURCE_GROUP_LOCATION} --template-file ./bis-rg-arm.json \
+    az deployment sub create --location ${RESOURCE_GROUP_LOCATION} --template-file ./temp-rg-arm.json \
         --name ${RESOURCE_GROUP_NAME}-rg-deployment --parameters \
         rgName=${RESOURCE_GROUP_NAME} rgLocation=${RESOURCE_GROUP_LOCATION} 
 }
@@ -48,7 +48,7 @@ function createResourceGroup() {
 function createNetwork() {
     echo "Creating the network infrastructure"
     az deployment group create --resource-group ${RESOURCE_GROUP_NAME}  \
-        --template-file ./bis-network-arm.json \
+        --template-file ./temp-network-arm.json \
         --name ${RESOURCE_GROUP_NAME}-nw-deployment --parameters \
         vnetName=${VNET_NAME} ipAddressPrefix=${NETWORK_PREFIX} \
         resourceLocation=${VNET_LOCATION}
@@ -58,7 +58,7 @@ function createNetwork() {
 function createContainerRegistry() {
     echo "Creating the container registry"
     az deployment group create --resource-group ${RESOURCE_GROUP_NAME}  \
-        --template-file ./bis-registry-arm.json \
+        --template-file ./temp-registry-arm.json \
         --name ${RESOURCE_GROUP_NAME}-registry-deployment --parameters \
         registryName=${REGISTRY_NAME} registryLocation=${REGISTRY_LOCATION} \
         registrySku=${REGISTRY_SKU} publicNetworkAccess=${PUBLIC_NETWORK_ACCESS}
@@ -81,7 +81,7 @@ function createAksCluster() {
     vnetSubnetID=$AKS_VNET_SUBNETID
 
     az deployment group create --resource-group ${RESOURCE_GROUP_NAME}  \
-        --template-file ./bis-k8s-arm.json \
+        --template-file ./temp-k8s-arm.json \
         --name ${RESOURCE_GROUP_NAME}-k8s-deployment --parameters resourceGroup=${RESOURCE_GROUP_NAME} \
         resourceName=${AKS_RESOURCE_NAME} location=${AKS_LOCATION} \
         kubernetesVersion=${AKS_VERSION} servicePrincipalClientId=${appId} \
