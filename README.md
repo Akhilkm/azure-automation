@@ -8,7 +8,7 @@ Environment | Resource Name     |
 ------------|-------------------|
 Production  | bis-prod          |
 QA          | bis-qa            |
-Test        | bis-test          |
+Test        | bis-uat           |
 Devopment   | bis-dev           |
 
 Docker Registry Naming
@@ -17,7 +17,7 @@ Environment | Resource Name     |
 ------------|-------------------|
 Production  | bisprod           |
 QA          | bisqa             |
-Test        | bistest           |
+Test        | bisuat            |
 Devopment   | bisdev            |
 
 Git Branch Naming
@@ -28,7 +28,7 @@ Environment | Resource Name     |
 ------------|-------------------|
 Production  | master            |
 QA          | qa                |
-Test        | test              |
+Test        | uat               |
 Devopment   | dev               |
 
 # Steps to create infra
