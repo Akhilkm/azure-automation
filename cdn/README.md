@@ -2,6 +2,11 @@
 
 #### Note: Configuring this rules requires the Azure CDN Verizon Premium tier
 
+## Get customer origin in CDN and update rule.xml
+
+![alt text](https://raw.githubusercontent.com/Akhilkm/azure-automation/master/cdn/customer-origin.png?raw=true)
+
+
 ## Configuring Azure CDN HTTP-HTTPS redirection
 
 * From the Azure Portal Select the CDN profile
