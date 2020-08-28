@@ -1,0 +1,16 @@
+<policy>	
+    <rules>	
+        <rule>
+            <description>httptohttps</description>
+            <match.request.request-scheme.literal value="http">
+                <feature.url.url-redirect source="<<customer origin>>/(.*)" destination="https://%{host}/$1" code="301"/>
+            </match.request.request-scheme.literal>
+        </rule>
+        <rule>
+            <description>homepage</description>
+            <match.always>
+                <feature.url.url-rewrite source="<<customer origin>>/[^?.]*(\?.*)?$" destination="<<customer origin>>/index.html"/>	
+            </match.always>
+        </rule>
+    </rules>	
+</policy>
